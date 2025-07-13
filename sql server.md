@@ -2,9 +2,13 @@ REVENUE WEEK_Tuhrsday dan POO
 
 SELECT 'Revenue' as [val_tipe],
        'Performance' as [tipe],
-       year(dot) as [tahun],
-       month(dot) as [month],
-       Day([dot])     AS Date,
+       year(doi) as [tahun_doi],
+       month(doi) as [month_doi],
+       Day([doi]) as [Date_doi],
+       year(dot) as [tahun_dot],
+       month(dot) as [month_dot],
+             [DOI,[DOT],
+       
        CASE 
     WHEN dot < DATEADD(DAY, 
                       (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, 
