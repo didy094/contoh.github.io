@@ -1,0 +1,119 @@
+CORPORATE WEEK :
+
+
+SELECT val_tipe,
+       Day(date)      AS date,
+CASE 
+    WHEN Date < DATEADD(DAY, 
+                        (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))) % 7, 
+                        CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))
+    THEN 0
+    ELSE DATEDIFF(WEEK, 
+                  DATEADD(DAY, 
+                          (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))) % 7, 
+                          CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)), 
+                  Date) + 1
+END AS WEEK,
+
+CASE 
+    WHEN Date < DATEADD(DAY, 
+                        (5 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)) + 7) % 7, 
+                        CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))
+    THEN 0
+    ELSE DATEDIFF(WEEK, 
+                  DATEADD(DAY, 
+                          (5 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)) + 7) % 7, 
+                          CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)), 
+                  Date) + 1
+END AS [week_thursday],
+
+
+       Month(date)    AS month,
+       Year(date)     AS year,
+       CASE
+         WHEN branch_owner = 'JKTCP' THEN [branch office]
+         ELSE branch_owner
+       END            AS branch_owner,
+       a.region_owner,
+       channel,
+       a.induk_code,
+       a.induk_name,
+       a.induk_industry_type,
+       a.corporate_code,
+       a.corporate_name,
+       subclass,
+       [branch office]AS branch_issued,
+       b.region       AS region_pid,
+       route_vv,
+       sector,
+       subservicecode,
+       servicetypecode,
+       c.induk_bo,
+       a.agent_name,
+       a.agen_no      AS IATA,
+       d.[corporate cluster],
+       farebasis,
+       tourcode,
+       Sum(val)       AS Rev,
+       Sum(pax)       AS pax
+FROM   corporate_summary_performance a
+       LEFT JOIN reff_bo b
+              ON a.[branch office] = b.bo
+       LEFT JOIN reff_corporate_definition c
+              ON a.corporate_code = c.corporate_code
+       LEFT JOIN corporate_cluster d
+              ON a.corporate_code = d.corporate_code
+WHERE  tipe = 'performance'
+       AND Year(date) in ('2023','2024','2025')
+GROUP  BY val_tipe,
+          Day(date),
+CASE 
+    WHEN Date < DATEADD(DAY, 
+                        (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))) % 7, 
+                        CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))
+    THEN 0
+    ELSE DATEDIFF(WEEK, 
+                  DATEADD(DAY, 
+                          (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))) % 7, 
+                          CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)), 
+                  Date) + 1
+END,
+
+CASE 
+    WHEN Date < DATEADD(DAY, 
+                        (5 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)) + 7) % 7, 
+                        CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE))
+    THEN 0
+    ELSE DATEDIFF(WEEK, 
+                  DATEADD(DAY, 
+                          (5 - DATEPART(WEEKDAY, CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)) + 7) % 7, 
+                          CAST(CAST(YEAR(Date) AS VARCHAR) + '-01-01' AS DATE)), 
+                  Date) + 1
+END,
+
+          Month(date),
+          Year(date),
+          CASE
+            WHEN branch_owner = 'JKTCP' THEN [branch office]
+            ELSE branch_owner
+          END,
+          a.region_owner,
+          channel,
+          a.induk_code,
+          a.induk_name,
+          a.induk_industry_type,
+          a.corporate_code,
+          a.corporate_name,
+          subclass,
+          [branch office],
+          b.region,
+          route_vv,
+          sector,
+          subservicecode,
+          servicetypecode,
+          c.induk_bo,
+          a.agent_name,
+          a.agen_no,
+          d.[corporate cluster],
+          farebasis,
+          tourcode
