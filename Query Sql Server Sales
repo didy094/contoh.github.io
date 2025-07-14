@@ -17,9 +17,9 @@ SELECT 'Sales' as [val_tipe],
        -- >> PENAMBAHAN SCRIPT BARU UNTUK week_thursday <<
        CASE 
            -- Temukan Kamis pertama dalam setahun (dengan asumsi DATEFIRST=1, Kamis adalah hari ke-5)
-           WHEN dot < DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0
+           WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0
            -- Hitung minggu berbasis Kamis (lebih andal menggunakan DATEDIFF(DAY,...) / 7)
-           ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1
+           ELSE DATEDIFF(DAY, DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1
        END as week_thursday,
        b.[region], 
        branch_office,
@@ -37,7 +37,7 @@ GROUP  BY [agent_grouping], doi, dot, b.[region], a.branch_office, c.[platform],
           [servicetypecode], [subservicecode], [route_vv], [grouping_channel], [AGEN_NO],[tourcode],[SUBCLASS],[DOI],[DOT],
           CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(WEEK, DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) + 1 END,
           -- >> PENAMBAHAN SCRIPT BARU UNTUK week_thursday DI GROUP BY <<
-          CASE WHEN dot < DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END
+          CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END
 
 union
 
@@ -51,7 +51,7 @@ SELECT 'Sales' as [val_tipe],
        [DOI], [DOT],
        CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(WEEK, DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) + 1 END AS Minggu,
        -- >> PENAMBAHAN SCRIPT BARU UNTUK week_thursday <<
-       CASE WHEN dot < DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END as week_thursday,
+       CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END as week_thursday,
        b.[region], 
        branch_office,
        [platform], [AGEN_NO],[SUBCLASS],
@@ -68,7 +68,7 @@ GROUP  BY [agent_grouping], doi, dot, b.[region], a.branch_office, c.[platform],
           [servicetypecode], [subservicecode], [route_vv], [grouping_channel], [AGEN_NO],[tourcode], [SUBCLASS],[DOI],[DOT],
           CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(WEEK, DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) + 1 END,
           -- >> PENAMBAHAN SCRIPT BARU UNTUK week_thursday DI GROUP BY <<
-          CASE WHEN dot < DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END
+          CASE WHEN dot < DATEADD(DAY, (8 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)) THEN 0 ELSE DATEDIFF(DAY, DATEADD(DAY, (12 - DATEPART(WEEKDAY, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE))) % 7, CAST(CAST(YEAR(dot) AS VARCHAR) + '-01-01' AS DATE)), dot) / 7 + 1 END
 
 UNION
 
