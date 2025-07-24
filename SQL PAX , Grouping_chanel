@@ -1,0 +1,26 @@
+SELECT year(doi) year, channel_grouping as Grouping_Channel,
+    COUNT(DISTINCT PNR) AS JUMLAH_PNR, count(cp_no) as pax,
+    SUM(ISNULL(GROSS_USD, 0) - ISNULL(DISC_USD, 0) + ISNULL(YQ_USD, 0)) AS revenueUSD,
+    SUM(ISNULL(GROSS_IDR, 0) - ISNULL(DISC_IDR, 0) + ISNULL(YQ_IDR, 0)) AS revenueIDR
+FROM 
+    alsales2025
+WHERE 
+    OPRT_ALN != 'S'
+    AND DOCTYPE = 'PAX'
+    AND CPNSTS IN ('flown', 'unutilised')
+    AND OPRT_ALN NOT IN ('//', '/-') and month(doi) in (1,2,3,4,5,6)
+group by year(doi), channel_grouping
+union
+SELECT year(doi) year, channel_grouping as Grouping_Channel,
+	count(cp_no) as pax,
+    COUNT(DISTINCT PNR) AS JUMLAH_PNR,
+    SUM(ISNULL(GROSS_USD, 0) - ISNULL(DISC_USD, 0) + ISNULL(YQ_USD, 0)) AS revenueUSD,
+    SUM(ISNULL(GROSS_IDR, 0) - ISNULL(DISC_IDR, 0) + ISNULL(YQ_IDR, 0)) AS revenueIDR
+FROM 
+    alsales2024
+WHERE 
+    OPRT_ALN != 'S'
+    AND DOCTYPE = 'PAX'
+    AND CPNSTS IN ('flown', 'unutilised')
+    AND OPRT_ALN NOT IN ('//', '/-')
+group by year(doi), channel_grouping
