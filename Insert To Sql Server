@@ -30,3 +30,74 @@ Tampilkan Induk CODE ALL
 SELECT CORPORATE_CODE, CORPORATE_NAME, INDUK_CODE
 FROM corporate_cluster
 ORDER BY INDUK_CODE;
+
+
+"Script untuk narik data dengan code_corpt"
+SELECT
+  val_tipe,
+  DAY([date]) AS [date],
+  MONTH([date]) AS [month],
+  YEAR([date]) AS [year],
+  branch_owner,
+  a.region_owner,
+  channel,
+  a.induk_code,
+  a.induk_name,
+  a.induk_industry_type,
+  a.corporate_code,
+  a.corporate_name,
+  subclass,
+  [branch office] AS branch_issued,
+  b.region AS region_pid,
+  route_vv,
+  sector,
+  subservicecode,
+  servicetypecode,
+  c.induk_bo,
+  a.agent_name,
+  a.agen_no AS IATA,
+  d.[corporate cluster],
+  farebasis,
+  tourcode,
+  SUM(val) AS Rev,
+  SUM(pax) AS pax
+
+FROM corporate_summary_performance a
+LEFT JOIN reff_bo b ON a.[branch office] = b.bo
+LEFT JOIN reff_corporate_definition c ON a.corporate_code = c.corporate_code
+LEFT JOIN corporate_cluster d ON a.corporate_code = d.corporate_code
+
+WHERE tipe = 'performance'
+  AND YEAR([date]) IN (2023, 2024, 2025)
+  AND a.corporate_code = 'PPPN'
+
+GROUP BY
+  val_tipe,
+  DAY([date]),
+  MONTH([date]),
+  YEAR([date]),
+  branch_owner,
+  a.region_owner,
+  channel,
+  a.induk_code,
+  a.induk_name,
+  a.induk_industry_type,
+  a.corporate_code,
+  a.corporate_name,
+  subclass,
+  [branch office],
+  b.region,
+  route_vv,
+  sector,
+  subservicecode,
+  servicetypecode,
+  c.induk_bo,
+  a.agent_name,
+  a.agen_no,
+  d.[corporate cluster],
+  farebasis,
+  tourcode;
+
+yang di ubah adalah :
+more than one corp
+AND a.corporate_code IN ('PPPN', 'PAIL', 'CPIB', 'CPPB')
