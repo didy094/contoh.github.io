@@ -1,0 +1,8 @@
+select * from corporate_cluster where CORPORATE_CODE = 'PPAT'
+insert into corporate_cluster values ('KRIA','PT CHAROEN POKPHAND INDONESIA - KRIAN','PRIVATE','CHPP')
+--kolom terakhir klo dia punya induk code maka isi kolom dg induk code
+--tp klo dia induk maka kolom paling kanan kosong aja 
+--contoh ('PERT','PERTAMINA','BUMN','')
+
+
+update corporate_cluster set [CORPORATE CLUSTER] = 'COMMUNITY' where CORPORATE_CODE = 'PPAT'
