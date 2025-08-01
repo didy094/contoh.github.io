@@ -24,13 +24,14 @@ Setelah menjalankan query:
 
 CORPORATE_CODE	CORPORATE_NAME	CORPORATE CLUSTER
 PPAT	PT Prima Patra Sejahtera	COMMUNITY
+qUERY NYA :
 (update corporate_cluster set [CORPORATE CLUSTER] = 'COMMUNITY' where CORPORATE_CODE = 'PPAT' )
-
-Tampilkan Induk CODE ALL
+==========================
+"Tampilkan Induk CODE ALL"
 SELECT CORPORATE_CODE, CORPORATE_NAME, INDUK_CODE
 FROM corporate_cluster
 ORDER BY INDUK_CODE;
-
+===================================
 
 "Script untuk narik data dengan code_corpt"
 SELECT
