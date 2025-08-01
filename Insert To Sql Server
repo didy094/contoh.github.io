@@ -4,5 +4,29 @@ insert into corporate_cluster values ('KRIA','PT CHAROEN POKPHAND INDONESIA - KR
 --tp klo dia induk maka kolom paling kanan kosong aja 
 --contoh ('PERT','PERTAMINA','BUMN','')
 
+Melihat insert yng sudah di masukan ke SQL 
+SELECT *
+FROM corporate_cluster
+WHERE INDUK_CODE IN ('CHPP', 'FKSG', 'ASII', 'YANA', 'MCGD');
 
-update corporate_cluster set [CORPORATE CLUSTER] = 'COMMUNITY' where CORPORATE_CODE = 'PPAT'
+✅ Mengubah Nilai Kolom
+Mengubah nilai kolom CORPORATE CLUSTER menjadi 'COMMUNITY' hanya untuk baris yang memiliki:
+
+CORPORATE_CODE = 'PPAT'
+
+🔍 Contohnya:
+Sebelum update:
+
+CORPORATE_CODE	CORPORATE_NAME	CORPORATE CLUSTER
+PPAT	PT Prima Patra Sejahtera	PRIVATE
+
+Setelah menjalankan query:
+
+CORPORATE_CODE	CORPORATE_NAME	CORPORATE CLUSTER
+PPAT	PT Prima Patra Sejahtera	COMMUNITY
+(update corporate_cluster set [CORPORATE CLUSTER] = 'COMMUNITY' where CORPORATE_CODE = 'PPAT' )
+
+Tampilkan Induk CODE ALL
+SELECT CORPORATE_CODE, CORPORATE_NAME, INDUK_CODE
+FROM corporate_cluster
+ORDER BY INDUK_CODE;
