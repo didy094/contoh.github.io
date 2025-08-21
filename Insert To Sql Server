@@ -8,7 +8,18 @@ Melihat insert yng sudah di masukan ke SQL
 SELECT *
 FROM corporate_cluster
 WHERE INDUK_CODE IN ('CHPP', 'FKSG', 'ASII', 'YANA', 'MCGD');
-
+===================
+*untuk UPDATE KOLOM atau cluster*
+UPDATE corporate_cluster
+SET INDUK_CODE = ' '
+WHERE CORPORATE_CODE = 'GSII';
+=============
+UPDATE corporate_cluster
+SET [CORPORATE CLUSTER] = CASE 
+                            WHEN CORPORATE_CODE = 'TSAK' THEN 'COMMUNITY'
+                            ELSE [CORPORATE CLUSTER]
+                          END;
+===========================================
 ✅ Mengubah Nilai Kolom
 Mengubah nilai kolom CORPORATE CLUSTER menjadi 'COMMUNITY' hanya untuk baris yang memiliki:
 
