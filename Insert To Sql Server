@@ -19,6 +19,43 @@ SET [CORPORATE CLUSTER] = CASE
                             WHEN CORPORATE_CODE = 'TSAK' THEN 'COMMUNITY'
                             ELSE [CORPORATE CLUSTER]
                           END;
+
+
+⚠️ Saran: sebelum jalankan DELETE, coba cek dulu baris mana saja yang dianggap duplikat dengan query berikut:
+Kalau sudah yakin mau hapus, tinggal ganti SELECT jadi DELETE:
+
+;WITH CTE AS (
+    SELECT *,
+        ROW_NUMBER() OVER (
+            PARTITION BY CORPORATE_CODE, CORPORATE_NAME, [CORPORATE CLUSTER], INDUK_CODE
+            ORDER BY (SELECT NULL)
+        ) AS rn
+    FROM corporate_cluster
+)
+DELETE 
+FROM CTE
+WHERE rn > 1;
+
+==========================================
+Di SQL Server (MSSQL), rollback bisa dilakukan dengan transaction.
+Jadi sebelum eksekusi DELETE, UPDATE, atau INSERT yang berisiko, kita bungkus query dalam transaksi.
+
+Contoh:
+
+BEGIN TRANSACTION;
+
+-- contoh perintah hapus
+DELETE FROM corporate_cluster
+WHERE CORPORATE_CODE = 'ARMY';
+
+-- cek dulu hasilnya
+SELECT * FROM corporate_cluster WHERE CORPORATE_CODE = 'ARMY';
+
+-- kalau mau batalkan
+ROLLBACK;
+
+-- kalau sudah yakin
+-- COMMIT;
 ===========================================
 ✅ Mengubah Nilai Kolom
 Mengubah nilai kolom CORPORATE CLUSTER menjadi 'COMMUNITY' hanya untuk baris yang memiliki:
