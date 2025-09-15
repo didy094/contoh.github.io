@@ -81,7 +81,7 @@ FROM corporate_cluster
 ORDER BY INDUK_CODE;
 ===================================
 
-"Script untuk narik data dengan code_corpt"
+"Script untuk narik data dengan code_corpt dan table corporate_summary_performance"
 SELECT
   val_tipe,
   DAY([date]) AS [date],
@@ -150,3 +150,33 @@ GROUP BY
 yang di ubah adalah :
 more than one corp
 AND a.corporate_code IN ('PPPN', 'PAIL', 'CPIB', 'CPPB')
+
+=========================================================
+untuk Tarik Data dengan FROM alflown dan corporate_code
+SELECT 
+    YEAR(dot) AS year,corporate_code,PNR,
+    dot, 
+    TICKET_NO, 
+    paxname, 
+    flg_no, 
+    route_vv, route, tourcode,
+    MONTH(dot) AS month, 
+    COUNT(cp_no) AS pax,
+    SUM(ISNULL(GROSS_USD, 0) - ISNULL(DISC_USD, 0) + ISNULL(YQ_USD, 0)) AS revenueUSD,
+    SUM(ISNULL(GROSS_IDR, 0) - ISNULL(DISC_IDR, 0) + ISNULL(YQ_IDR, 0)) AS revenueIDR
+FROM alflown2024
+WHERE oprt_aln != 'S' 
+AND doctype IN ('PAX', 'FIM') 
+AND (
+    corporate_code LIKE '%ASTN%'
+
+)
+GROUP BY YEAR(dot),corporate_code,
+    dot, 
+    TICKET_NO, 
+    paxname, 
+    flg_no, 
+    route_vv, route, tourcode,
+    MONTH(dot), PNR
+ORDER BY dot
+
